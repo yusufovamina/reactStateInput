@@ -15,14 +15,13 @@ export function UserForm() {
   const handleInput2 = (ev) => {
     setInput2(ev.target.value);
   };
-
   const handleInput3 = (ev) => {
     setInput3(ev.target.value);
   };
 
   const validateForm = () => {
     const isInput1Valid = /^[A-Z]/.test(input1);
-    const isInput2Valid = input2.length > 8;
+    const isInput2Valid = input2.length >= 8;
     const isInput3Valid = /@/.test(input3);
     setActiveButton(!(isInput1Valid && isInput2Valid && isInput3Valid));
   };
@@ -38,7 +37,7 @@ export function UserForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="input1">Input 1 (Uppercase letter):</label>
+          <label htmlFor="input1">1 Input (uppercase):</label>
           <input
             name="input1"
             type="text"
@@ -50,7 +49,7 @@ export function UserForm() {
           />
         </div>
         <div>
-          <label htmlFor="input2">Input 2 (More than 8 characters):</label>
+          <label htmlFor="input2">2 Input (more than 8 characters):</label>
           <input
             name="input2"
             type="text"
@@ -62,7 +61,7 @@ export function UserForm() {
           />
         </div>
         <div>
-          <label htmlFor="input3">Input 3 (Contains @):</label>
+          <label htmlFor="input3">3 Input (@):</label>
           <input
             name="input3"
             type="text"
