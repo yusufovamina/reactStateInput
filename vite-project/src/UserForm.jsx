@@ -2,86 +2,109 @@ import { useState } from 'react';
 import './App.css';
 
 export function UserForm() {
-  const [input1, setInput1] = useState('');
-  const [input2, setInput2] = useState('');
-  const [input3, setInput3] = useState('');
-  const [activeButton, setActiveButton] = useState(true);
-  const [formData, setFormData] = useState(null);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [submitButton, setSubmitButton] = useState(true);
+  const [submittedData, setSubmittedData] = useState(null);
 
-  const handleInput1 = (ev) => {
-    setInput1(ev.target.value);
+  const handleFirstNameChange = (ev) => {
+    setFirstName(ev.target.value);
   };
 
-  const handleInput2 = (ev) => {
-    setInput2(ev.target.value);
+  const handleLastNameChange = (ev) => {
+    setLastName(ev.target.value);
   };
-  const handleInput3 = (ev) => {
-    setInput3(ev.target.value);
+
+  const handleEmailChange = (ev) => {
+    setEmail(ev.target.value);
+  };
+  const validationRules = {
+    firstName: (value) => /^[A-Z]/.test(value) ? '' : 'First name must start with uppercase letter',
+    lastName: (value) => (value.length >= 8) ? '' : 'Last name must be at least 8 characters long',
+    email: (value) => /@/.test(value) ? '' : 'Email must contain "@" symbol',
   };
 
   const validateForm = () => {
-    const isInput1Valid = /^[A-Z]/.test(input1);
-    const isInput2Valid = input2.length >= 8;
-    const isInput3Valid = /@/.test(input3);
-    setActiveButton(!(isInput1Valid && isInput2Valid && isInput3Valid));
+    let hasErrors = false;
+    const errors = {};
+    for (const field in validationRules) {
+      const error = validationRules[field](eval(field)); 
+      if (error) {
+        errors[field] = error;
+        hasErrors = true;
+      }
+    }
+
+    setSubmitButton(hasErrors);
   };
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    if (!activeButton) {
-      setFormData({ input1, input2, input3 });
+    if (!submitButton) {
+      setSubmittedData({ firstName, lastName, email });
     }
   };
 
   return (
-    <div>
+    <>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="input1">1 Input (uppercase):</label>
+          <label htmlFor="firstName">1 Input (uppercase):</label>
           <input
-            name="input1"
+            name="firstName"
             type="text"
-            value={input1}
+            value={firstName}
             onChange={(ev) => {
-              handleInput1(ev);
+              handleFirstNameChange(ev);
               validateForm();
             }}
           />
+          {validationRules.firstName(firstName) && (
+            <p style={{ color: 'red' }}>{validationRules.firstName(firstName)}</p>
+          )}
         </div>
         <div>
-          <label htmlFor="input2">2 Input (more than 8 characters):</label>
+          <label htmlFor="lastName">2 Input (more than 8 characters):</label>
           <input
-            name="input2"
+            name="lastName"
             type="text"
-            value={input2}
+            value={lastName}
             onChange={(ev) => {
-              handleInput2(ev);
+              handleLastNameChange(ev);
               validateForm();
             }}
           />
+          {validationRules.lastName(lastName) && (
+            <p style={{ color: 'red' }}>{validationRules.lastName(lastName)}</p>
+          )}
         </div>
         <div>
-          <label htmlFor="input3">3 Input (@):</label>
+          <label htmlFor="email">3 Input (@):</label>
           <input
-            name="input3"
+            name="email"
             type="text"
-            value={input3}
+            value={email}
             onChange={(ev) => {
-              handleInput3(ev);
+              handleEmailChange(ev);
               validateForm();
             }}
           />
+         
+          {validationRules.email(email) && (
+            <p style={{ color: 'red' }}>{validationRules.email(email)}</p>
+          )}
         </div>
-        <button disabled={activeButton}>SEND</button>
+        <button disabled={submitButtonD}>SEND</button>
       </form>
-      {formData && (
+      {submittedData && (
         <div>
           <h3>Form Data:</h3>
-          <p>Input 1: {formData.input1}</p>
-          <p>Input 2: {formData.input2}</p>
-          <p>Input 3: {formData.input3}</p>
+          <p>Input 1: {submittedData.firstName}</p>
+          <p>Input 2: {submittedData.lastName}</p>
+          <p>Input 3: {submittedData.email}</p>
         </div>
       )}
-    </div>
+    </>
   );
 }
