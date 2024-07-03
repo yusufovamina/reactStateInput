@@ -12,17 +12,18 @@ export function UserForm() {
     setFirstName(ev.target.value);
   };
 
-  const handleLastNameChange = (ev) => {
-    setLastName(ev.target.value);
-  };
 
   const handleEmailChange = (ev) => {
     setEmail(ev.target.value);
+  }; 
+   const handleLastNameChange = (ev) => {
+    setLastName(ev.target.value);
   };
+
   const validationRules = {
-    firstName: (value) => /^[A-Z]/.test(value) ? '' : 'First name must start with uppercase letter',
-    lastName: (value) => (value.length >= 8) ? '' : 'Last name must be at least 8 characters long',
-    email: (value) => /@/.test(value) ? '' : 'Email must contain "@" symbol',
+    firstName: (value) => /^[A-Z]/.test(value) ? '' : 'name must start with uppercase ',
+    lastName: (value) => (value.length >= 8) ? '' : 'Surname must be at least 8 characters long',
+    email: (value) => /@/.test(value) ? '' : 'Mail must contain @',
   };
 
   const validateForm = () => {
@@ -50,7 +51,7 @@ export function UserForm() {
     <>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="firstName">1 Input (uppercase):</label>
+          <label htmlFor="firstName">1 Input (upperrcase):</label>
           <input
             name="firstName"
             type="text"
@@ -65,7 +66,7 @@ export function UserForm() {
           )}
         </div>
         <div>
-          <label htmlFor="lastName">2 Input (more than 8 characters):</label>
+          <label htmlFor="lastName">2 Input (more than 8 characters)</label>
           <input
             name="lastName"
             type="text"
@@ -95,11 +96,11 @@ export function UserForm() {
             <p style={{ color: 'red' }}>{validationRules.email(email)}</p>
           )}
         </div>
-        <button disabled={submitButtonD}>SEND</button>
+        <button disabled={submitButton}>SEND</button>
       </form>
       {submittedData && (
         <div>
-          <h3>Form Data:</h3>
+          <h3>Form</h3>
           <p>Input 1: {submittedData.firstName}</p>
           <p>Input 2: {submittedData.lastName}</p>
           <p>Input 3: {submittedData.email}</p>
